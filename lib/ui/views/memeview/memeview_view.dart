@@ -25,43 +25,57 @@ class MemeviewView extends StackedView<MemeviewViewModel> {
       body: SafeArea(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Container(
-                      // decorate the border of the container to make the container border visible
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 5,
-                        ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Container(
+                              // decorate the border of the container to make the container border visible
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.purple,
+                                  width: 5,
+                                ),
+                              ),
+                              child: Image.network(viewModel.imageUrl)),
+                          const SizedBox(height: 16),
+                          const SizedBox(height: 16),
+                        ],
                       ),
-                      child: Image.network(viewModel.imageUrl)),
-                  const SizedBox(height: 16),
-                  ElevatedButton.icon(
-                    style: ButtonStyle(
-                      fixedSize: MaterialStateProperty.all(const Size(200, 60)),
-                      backgroundColor: MaterialStateProperty.all(Colors.purple),
                     ),
-                    onPressed: () async {
-                      await viewModel.shareAndSaveImage();
-                    },
-                    icon: const Icon(
-                      Icons.share,
-                      color: Colors.white,
-                      size: 24,
-                    ),
-                    label: const Text(
-                      "Share",
-                      style: TextStyle(color: Colors.white, fontSize: 24),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                ],
+                    // const Expanded(child: SizedBox()),
+                  ],
+                ),
               ),
             ),
-            const Expanded(child: SizedBox()),
+            const SizedBox(
+              height: 16,
+            ),
+            ElevatedButton.icon(
+              style: ButtonStyle(
+                fixedSize: MaterialStateProperty.all(const Size(200, 60)),
+                backgroundColor: MaterialStateProperty.all(Colors.purple),
+              ),
+              onPressed: () async {
+                await viewModel.shareAndSaveImage();
+              },
+              icon: const Icon(
+                Icons.share,
+                color: Colors.white,
+                size: 24,
+              ),
+              label: const Text(
+                "Share",
+                style: TextStyle(color: Colors.white, fontSize: 24),
+              ),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
             Container(
               width: MediaQuery.of(context).size.width * 1,
               color: Colors.purple,

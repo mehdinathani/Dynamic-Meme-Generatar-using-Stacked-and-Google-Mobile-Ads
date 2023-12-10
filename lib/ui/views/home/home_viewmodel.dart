@@ -12,12 +12,18 @@ import 'package:stacked_services/stacked_services.dart';
 
 class HomeViewModel extends BaseViewModel {
   String templateId = '';
+  String templateURL = "";
   String text0 = '';
   String text1 = '';
+  String text2 = 'someone with text 2';
+  String text3 = 'someone with text 3';
+  String text4 = 'someone with text 4';
   String username = Config.username;
   String password = Config.password;
   String imageUrl = '';
+  int selectedBoxCount = 2;
   late List<Meme> memes = [];
+  late List<Meme> filteredmemes = [];
 
   // Getter for template names
   List<String> get templateNames => memes.map((meme) => meme.name).toList();
@@ -46,6 +52,8 @@ class HomeViewModel extends BaseViewModel {
 
     int selectedId = int.parse(selectedMeme.id);
     log(selectedId.toString());
+    templateURL = selectedMeme.url;
+    log(templateURL);
 
     return selectedId;
   }
@@ -64,7 +72,31 @@ class HomeViewModel extends BaseViewModel {
     setBusy(true);
 
     try {
-      imageUrl = await _memeservice.generateMeme(templateId, text0, text1);
+      switch (selectedBoxCount) {
+        case 2:
+          imageUrl = await _memeservice.generateMemeWith2Boxes(
+              templateId, text0, text1);
+          break;
+        case 3:
+          imageUrl = await _memeservice.generateMemeWith3Boxes(
+              templateId, text0, text1, text2);
+          break;
+        case 4:
+          imageUrl = await _memeservice.generateMemeWith4Boxes(
+              templateId, text0, text1, text2, text3);
+          break;
+
+        case 5:
+          imageUrl = await _memeservice.generateMemeWith5Boxes(
+              templateId, text0, text1, text2, text3, text4);
+          break;
+        default:
+          imageUrl = await _memeservice.generateMemeWith2Boxes(
+              templateId, text0, text1);
+      }
+      // imageUrl =
+      //     await _memeservice.generateMeme(templateId, text0, text1, text2);
+      //     await _memeservice.generateMeme(templateId, text0, text1, text2);
       log(imageUrl);
 
       // Notify listeners that the data has been changed
@@ -80,11 +112,40 @@ class HomeViewModel extends BaseViewModel {
   }
 
   Future<void> fetchMemeData() async {
+    setBusy(true);
     // fetchedMemes = await _fetchmemesdataService.fetchMemes();
     // // Use the fetchedMemes directly in your application
     // log(fetchedMemes.toString());
     await _fetchmemesdataService.loadData();
     memes = _fetchmemesdataService
         .memes; // Assign the loaded memes to the ViewModel property
+
+    setBusy(false);
+  }
+
+  updateSelectedBoxes(int n) {
+    setBusy(true);
+    selectedBoxCount = n;
+    filteredmemes =
+        memes.where((meme) => meme.boxCount == selectedBoxCount).toList();
+    setBusy(false);
+  }
+
+  List<int> getUniqueSortedBoxCounts(List<Meme> memes) {
+    if (memes.isEmpty) {
+      // Handle the case when the list is empty
+      return [];
+    }
+
+    // Step 1: Collect box counts
+    List<int> boxCounts = memes.map((meme) => meme.boxCount).toList();
+
+    // Step 2: Convert to set (unique values)
+    Set<int> uniqueBoxCounts = boxCounts.toSet();
+
+    // Step 3: Sort the set
+    List<int> sortedUniqueBoxCounts = uniqueBoxCounts.toList()..sort();
+
+    return sortedUniqueBoxCounts;
   }
 }

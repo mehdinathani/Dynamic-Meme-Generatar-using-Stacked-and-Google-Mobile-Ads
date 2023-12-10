@@ -67,7 +67,7 @@ class FetchmemesdataService {
 
         // Convert the JSON data to a list of Meme objects
         memes = memesData.map((memeData) => Meme.fromJson(memeData)).toList();
-        log(memes.toString());
+        log("${memes.length} Memes fetched.");
       } else {
         print('Failed to load data: ${response.statusCode}');
         // Handle the error as needed

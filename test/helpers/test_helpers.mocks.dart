@@ -747,6 +747,9 @@ class MockMemegenerationserviceService extends _i1.Mock
     String? templateId,
     String? text0,
     String? text1,
+    String? text2,
+    String? text3,
+    String? text4,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
