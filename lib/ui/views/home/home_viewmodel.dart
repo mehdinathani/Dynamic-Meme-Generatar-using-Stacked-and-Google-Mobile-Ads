@@ -78,16 +78,16 @@ class HomeViewModel extends BaseViewModel {
               templateId, text0, text1);
           break;
         case 3:
-          imageUrl = await _memeservice.generateMemeWith3Boxes(
+          imageUrl = await _memeservice.generateMeme3boxesArray(
               templateId, text0, text1, text2);
           break;
         case 4:
-          imageUrl = await _memeservice.generateMemeWith4Boxes(
+          imageUrl = await _memeservice.generateMeme4boxesArray(
               templateId, text0, text1, text2, text3);
           break;
 
         case 5:
-          imageUrl = await _memeservice.generateMemeWith5Boxes(
+          imageUrl = await _memeservice.generateMeme5boxesArray(
               templateId, text0, text1, text2, text3, text4);
           break;
         default:
