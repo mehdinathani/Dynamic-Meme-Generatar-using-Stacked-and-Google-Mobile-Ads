@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:memegeneraterappusingstacked/app/app.locator.dart';
 import 'package:memegeneraterappusingstacked/app/app.router.dart';
 import 'package:memegeneraterappusingstacked/config/config.dart';
@@ -24,9 +25,30 @@ class HomeViewModel extends BaseViewModel {
   int selectedBoxCount = 2;
   late List<Meme> memes = [];
   late List<Meme> filteredmemes = [];
+  int minCaption = 0;
+  int maxCaption = 0;
 
   // Getter for template names
   List<String> get templateNames => memes.map((meme) => meme.name).toList();
+  List<int> get captionslist => memes.map((meme) => meme.captions).toList();
+  int getMaxCaptions(List<int> captions) {
+    return captions
+        .reduce((value, element) => value > element ? value : element);
+  }
+
+  int getMinCaptions(List<int> captions) {
+    return captions
+        .reduce((value, element) => value < element ? value : element);
+  }
+
+  getMaxMinCaptions() {
+    List<int> captions = memes.map((meme) => meme.captions).toList();
+    maxCaption = getMaxCaptions(captions);
+    minCaption = getMinCaptions(captions);
+
+    log(maxCaption.toString());
+    log(minCaption.toString());
+  }
 
   final MemegenerationserviceService _memeservice =
       locator<MemegenerationserviceService>();
@@ -120,6 +142,8 @@ class HomeViewModel extends BaseViewModel {
     memes = _fetchmemesdataService
         .memes; // Assign the loaded memes to the ViewModel property
 
+    getMaxMinCaptions();
+
     setBusy(false);
   }
 
@@ -147,5 +171,44 @@ class HomeViewModel extends BaseViewModel {
     List<int> sortedUniqueBoxCounts = uniqueBoxCounts.toList()..sort();
 
     return sortedUniqueBoxCounts;
+  }
+
+  double normalizeRating(int caption, int max, int min) {
+    // Ensure that the min and max values are different to avoid division by zero
+    if (max == min) {
+      return 0.0; // or any default value
+    }
+
+    // Normalize the caption value between 0 and 1 based on the range of max and min
+    double normalizedValue = (caption - min) / (max - min);
+
+    // Map the normalized value to the range between 1 and 5
+    double rating = normalizedValue * 4 + 1;
+
+    return rating;
+  }
+
+  // Add a new method in your HomeViewModel to create the widget
+  Widget memeRatingWidget(String memeName, double rating) {
+    return Row(
+      children: [
+        Text('$memeName - Rating:'),
+        RatingBar.builder(
+          initialRating: rating,
+          minRating: 1,
+          direction: Axis.horizontal,
+          allowHalfRating: true,
+          itemCount: 5,
+          itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+          itemBuilder: (context, _) => const Icon(
+            Icons.star,
+            color: Colors.amber,
+          ),
+          onRatingUpdate: (rating) {
+            debugPrint(rating.toString());
+          },
+        ),
+      ],
+    );
   }
 }

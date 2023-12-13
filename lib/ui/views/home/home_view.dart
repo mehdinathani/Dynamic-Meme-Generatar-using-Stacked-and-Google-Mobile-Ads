@@ -1,8 +1,11 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:memegeneraterappusingstacked/model/memes_current_data.dart';
+import 'package:memegeneraterappusingstacked/ui/common/custom_drawer_buttons.dart';
 import 'package:memegeneraterappusingstacked/ui/views/home/home_viewmodel.dart';
 import 'package:stacked/stacked.dart';
+import 'package:intl/intl.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -10,11 +13,44 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int dummuyReward = 1;
+    final oCcy = NumberFormat("#,##0", "en_US");
+
     return ViewModelBuilder<HomeViewModel>.reactive(
       onViewModelReady: (viewModel) => viewModel.fetchMemeData(),
       viewModelBuilder: () => HomeViewModel(),
       builder: (context, viewModel, child) {
         return Scaffold(
+          drawer: Drawer(
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: Column(
+              children: [
+                DrawerHeader(
+                  decoration: const BoxDecoration(
+                    color: Colors.purple,
+                    borderRadius: BorderRadius.vertical(
+                      bottom: Radius.circular(20),
+                      top: Radius.circular(0),
+                    ),
+                  ),
+                  child: SizedBox(
+                      width: double.infinity,
+                      child: Text("Ultimate Meme Generator")),
+                ),
+                CustomDrawerButton(
+                  onTap: () {},
+                  icon: Icons.document_scanner_outlined,
+                  text: "Home",
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                ListTile(
+                  leading: Icon(Icons.document_scanner_outlined),
+                  title: Text("Instructions"),
+                ),
+              ],
+            ),
+          ),
           resizeToAvoidBottomInset: true,
           appBar: AppBar(
             actions: [
@@ -117,6 +153,7 @@ class HomeView extends StatelessWidget {
                                               )),
                                         ),
                                       ),
+
                                       items: viewModel.getUniqueSortedBoxCounts(
                                           viewModel.memes),
                                       onChanged: (int? newValue) {
@@ -133,8 +170,40 @@ class HomeView extends StatelessWidget {
                                           0.9,
                                       // height: MediaQuery.of(context).size.height * 0.1,
                                       child: DropdownSearch<Meme>(
-                                        popupProps: const PopupProps.menu(
+                                        popupProps: PopupProps.menu(
                                           showSearchBox: true,
+                                          itemBuilder: (BuildContext context,
+                                              Meme meme, bool isSelected) {
+                                            double rating =
+                                                viewModel.normalizeRating(
+                                              meme.captions,
+                                              viewModel.maxCaption,
+                                              viewModel.minCaption,
+                                            );
+
+                                            return ListTile(
+                                              title: Text(
+                                                  '${meme.name} - Rating:'),
+                                              subtitle: RatingBar.builder(
+                                                initialRating: rating,
+                                                minRating: 1,
+                                                direction: Axis.horizontal,
+                                                allowHalfRating: true,
+                                                itemCount: 5,
+                                                itemPadding:
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: 4.0),
+                                                itemBuilder: (context, _) =>
+                                                    Icon(
+                                                  Icons.star,
+                                                  color: Colors.amber,
+                                                ),
+                                                onRatingUpdate: (rating) {
+                                                  print(rating);
+                                                },
+                                              ),
+                                            );
+                                          },
                                           menuProps: MenuProps(
                                               barrierLabel: "Search Here"),
                                           searchFieldProps: TextFieldProps(
@@ -158,9 +227,14 @@ class HomeView extends StatelessWidget {
                                         //         meme.boxCount ==
                                         //         viewModel.selectedBoxCount)
                                         //     .toList(),
-                                        itemAsString: (Meme meme) {
-                                          return '${meme.name} - Popularity: ${meme.captions}';
-                                        },
+                                        // itemAsString: (Meme meme) {
+                                        //   double rating =
+                                        //       viewModel.normalizeRating(
+                                        //           meme.captions,
+                                        //           viewModel.maxCaption,
+                                        //           viewModel.minCaption);
+                                        //   return '${meme.name} - Rating:  ${rating.toStringAsFixed(2)}';
+                                        // },
                                         onChanged: (Meme? newValue) {
                                           debugPrint(
                                               "Selected Meme: ${newValue?.name}");
