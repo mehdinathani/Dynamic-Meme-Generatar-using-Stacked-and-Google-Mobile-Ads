@@ -17,14 +17,14 @@ class CustomDrawerButton extends StatelessWidget {
           children: [
             Icon(
               icon,
-              size: 30,
+              size: 20,
             ),
-            SizedBox(
+            const SizedBox(
               width: 18,
             ),
             Text(
               text,
-              style: TextStyle(fontSize: 30),
+              style: const TextStyle(fontSize: 20),
             )
           ],
         ),

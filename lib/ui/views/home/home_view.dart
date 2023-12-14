@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -24,8 +26,8 @@ class HomeView extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.8,
             child: Column(
               children: [
-                DrawerHeader(
-                  decoration: const BoxDecoration(
+                const DrawerHeader(
+                  decoration: BoxDecoration(
                     color: Colors.purple,
                     borderRadius: BorderRadius.vertical(
                       bottom: Radius.circular(20),
@@ -34,20 +36,51 @@ class HomeView extends StatelessWidget {
                   ),
                   child: SizedBox(
                       width: double.infinity,
-                      child: Text("Ultimate Meme Generator")),
+                      child: Text(
+                        "Ultimate Meme Generator",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 30),
+                      )),
                 ),
                 CustomDrawerButton(
-                  onTap: () {},
-                  icon: Icons.document_scanner_outlined,
+                  onTap: () {
+                    viewModel.navigateToHome();
+                  },
+                  icon: Icons.home,
                   text: "Home",
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                ListTile(
-                  leading: Icon(Icons.document_scanner_outlined),
-                  title: Text("Instructions"),
+                CustomDrawerButton(
+                    onTap: () {
+                      viewModel.showInstructions();
+                    },
+                    icon: Icons.document_scanner_outlined,
+                    text: "Instrunctions"),
+                const SizedBox(
+                  height: 20,
                 ),
+                CustomDrawerButton(
+                    onTap: () {
+                      viewModel.showAboutUS();
+                    },
+                    icon: Icons.app_shortcut,
+                    text: 'About US'),
+                const SizedBox(
+                  height: 20,
+                ),
+                CustomDrawerButton(
+                    onTap: () async {}, icon: Icons.share, text: 'Share'),
+                const SizedBox(
+                  height: 20,
+                ),
+                CustomDrawerButton(
+                    onTap: () async {
+                      await viewModel.showExitAppMsg();
+                    },
+                    icon: Icons.exit_to_app,
+                    text: "Exit")
               ],
             ),
           ),
@@ -183,7 +216,11 @@ class HomeView extends StatelessWidget {
 
                                             return ListTile(
                                               title: Text(
-                                                  '${meme.name} - Rating:'),
+                                                '${meme.name} - Rating:',
+                                                style: const TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
                                               subtitle: RatingBar.builder(
                                                 initialRating: rating,
                                                 minRating: 1,
@@ -227,14 +264,14 @@ class HomeView extends StatelessWidget {
                                         //         meme.boxCount ==
                                         //         viewModel.selectedBoxCount)
                                         //     .toList(),
-                                        // itemAsString: (Meme meme) {
-                                        //   double rating =
-                                        //       viewModel.normalizeRating(
-                                        //           meme.captions,
-                                        //           viewModel.maxCaption,
-                                        //           viewModel.minCaption);
-                                        //   return '${meme.name} - Rating:  ${rating.toStringAsFixed(2)}';
-                                        // },
+                                        itemAsString: (Meme meme) {
+                                          double rating =
+                                              viewModel.normalizeRating(
+                                                  meme.captions,
+                                                  viewModel.maxCaption,
+                                                  viewModel.minCaption);
+                                          return '${meme.name} - Rating:  ${rating.toStringAsFixed(2)}';
+                                        },
                                         onChanged: (Meme? newValue) {
                                           debugPrint(
                                               "Selected Meme: ${newValue?.name}");

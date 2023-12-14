@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -8,6 +9,7 @@ import 'package:memegeneraterappusingstacked/config/config.dart';
 import 'package:memegeneraterappusingstacked/model/memes_current_data.dart';
 import 'package:memegeneraterappusingstacked/services/fetchmemesdata_service.dart';
 import 'package:memegeneraterappusingstacked/services/memegenerationservice_service.dart';
+import 'package:memegeneraterappusingstacked/ui/dialogs/info_alert/info_alert_dialog_model.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -50,6 +52,40 @@ class HomeViewModel extends BaseViewModel {
     log(minCaption.toString());
   }
 
+  final BottomSheetService _bottomSheetService = locator<BottomSheetService>();
+  final DialogService _dialogService = locator<DialogService>();
+
+  showAboutUS() async {
+    await _dialogService.showDialog(
+      title: 'About us',
+      description:
+          'This App is created just for fun and learning purpose. \n \n All Rights are reserved.',
+      dialogPlatform: DialogPlatform.Cupertino,
+    );
+  }
+
+  Future showExitAppMsg() async {
+    DialogResponse? response = await _dialogService.showDialog(
+      title: 'Are you sure',
+      description: "Are you sure want to exit the App",
+      buttonTitle: 'Ok',
+      cancelTitle: 'Cancel',
+      dialogPlatform: DialogPlatform.Cupertino,
+    );
+    if (response!.confirmed) {
+      exit(0);
+    }
+    debugPrint('DialogResponse: ${response?.confirmed}');
+  }
+
+  showInstructions() async {
+    var sheetResponse = await _bottomSheetService.showBottomSheet(
+      title: 'Instruction to use',
+      description:
+          '1- Select box count to select your Meme Category.\n \n2- Pick you Meme theme based on name and popularity Rating. \n \n3- You need atleast 1 start to generate your meme. \n \n4- Do watch some Ads to earn rewarded Stars. \n \n5- Each ad you see will give you 1 star. \n \n 6- You can share your Meme as many time as you can. ',
+    );
+  }
+
   final MemegenerationserviceService _memeservice =
       locator<MemegenerationserviceService>();
 
@@ -78,6 +114,10 @@ class HomeViewModel extends BaseViewModel {
     log(templateURL);
 
     return selectedId;
+  }
+
+  navigateToHome() {
+    navigationService.navigateToHomeView();
   }
 
   navigateTOMemeView() {
