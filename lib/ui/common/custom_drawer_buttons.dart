@@ -10,7 +10,7 @@ class CustomDrawerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: InkWell(
         onTap: onTap,
         child: Row(

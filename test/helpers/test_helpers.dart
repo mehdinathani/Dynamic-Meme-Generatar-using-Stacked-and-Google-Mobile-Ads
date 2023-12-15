@@ -4,6 +4,7 @@ import 'package:memegeneraterappusingstacked/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:memegeneraterappusingstacked/services/memegenerationservice_service.dart';
 import 'package:memegeneraterappusingstacked/services/fetchmemesdata_service.dart';
+import 'package:memegeneraterappusingstacked/services/admob_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -15,6 +16,7 @@ import 'test_helpers.mocks.dart';
   MockSpec<MemegenerationserviceService>(
       onMissingStub: OnMissingStub.returnDefault),
   MockSpec<FetchmemesdataService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<AdmobService>(onMissingStub: OnMissingStub.returnDefault),
 // @stacked-mock-spec
 ])
 void registerServices() {
@@ -23,6 +25,7 @@ void registerServices() {
   getAndRegisterDialogService();
   getAndRegisterMemegenerationserviceService();
   getAndRegisterFetchmemesdataService();
+  getAndRegisterAdmobService();
 // @stacked-mock-register
 }
 
@@ -87,6 +90,13 @@ MockFetchmemesdataService getAndRegisterFetchmemesdataService() {
   _removeRegistrationIfExists<FetchmemesdataService>();
   final service = MockFetchmemesdataService();
   locator.registerSingleton<FetchmemesdataService>(service);
+  return service;
+}
+
+MockAdmobService getAndRegisterAdmobService() {
+  _removeRegistrationIfExists<AdmobService>();
+  final service = MockAdmobService();
+  locator.registerSingleton<AdmobService>(service);
   return service;
 }
 // @stacked-mock-create

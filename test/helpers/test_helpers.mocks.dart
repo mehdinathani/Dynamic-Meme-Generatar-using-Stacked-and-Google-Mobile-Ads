@@ -7,6 +7,10 @@ import 'dart:async' as _i5;
 import 'dart:ui' as _i6;
 
 import 'package:flutter/material.dart' as _i4;
+import 'package:memegeneraterappusingstacked/model/memes_current_data.dart'
+    as _i9;
+import 'package:memegeneraterappusingstacked/services/admob_service.dart'
+    as _i10;
 import 'package:memegeneraterappusingstacked/services/fetchmemesdata_service.dart'
     as _i8;
 import 'package:memegeneraterappusingstacked/services/memegenerationservice_service.dart'
@@ -743,17 +747,14 @@ class MockMemegenerationserviceService extends _i1.Mock
       );
 
   @override
-  _i5.Future<String> generateMeme(
+  _i5.Future<String> generateMemeWith2Boxes(
     String? templateId,
     String? text0,
     String? text1,
-    String? text2,
-    String? text3,
-    String? text4,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
-          #generateMeme,
+          #generateMemeWith2Boxes,
           [
             templateId,
             text0,
@@ -763,7 +764,7 @@ class MockMemegenerationserviceService extends _i1.Mock
         returnValue: _i5.Future<String>.value(_i3.dummyValue<String>(
           this,
           Invocation.method(
-            #generateMeme,
+            #generateMemeWith2Boxes,
             [
               templateId,
               text0,
@@ -775,11 +776,299 @@ class MockMemegenerationserviceService extends _i1.Mock
             _i5.Future<String>.value(_i3.dummyValue<String>(
           this,
           Invocation.method(
-            #generateMeme,
+            #generateMemeWith2Boxes,
             [
               templateId,
               text0,
               text1,
+            ],
+          ),
+        )),
+      ) as _i5.Future<String>);
+
+  @override
+  _i5.Future<String> generateMemeWith3Boxes(
+    String? templateId,
+    String? text0,
+    String? text1,
+    String? text2,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #generateMemeWith3Boxes,
+          [
+            templateId,
+            text0,
+            text1,
+            text2,
+          ],
+        ),
+        returnValue: _i5.Future<String>.value(_i3.dummyValue<String>(
+          this,
+          Invocation.method(
+            #generateMemeWith3Boxes,
+            [
+              templateId,
+              text0,
+              text1,
+              text2,
+            ],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<String>.value(_i3.dummyValue<String>(
+          this,
+          Invocation.method(
+            #generateMemeWith3Boxes,
+            [
+              templateId,
+              text0,
+              text1,
+              text2,
+            ],
+          ),
+        )),
+      ) as _i5.Future<String>);
+
+  @override
+  _i5.Future<String> generateMemeWith4Boxes(
+    String? templateId,
+    String? text0,
+    String? text1,
+    String? text2,
+    String? text3,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #generateMemeWith4Boxes,
+          [
+            templateId,
+            text0,
+            text1,
+            text2,
+            text3,
+          ],
+        ),
+        returnValue: _i5.Future<String>.value(_i3.dummyValue<String>(
+          this,
+          Invocation.method(
+            #generateMemeWith4Boxes,
+            [
+              templateId,
+              text0,
+              text1,
+              text2,
+              text3,
+            ],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<String>.value(_i3.dummyValue<String>(
+          this,
+          Invocation.method(
+            #generateMemeWith4Boxes,
+            [
+              templateId,
+              text0,
+              text1,
+              text2,
+              text3,
+            ],
+          ),
+        )),
+      ) as _i5.Future<String>);
+
+  @override
+  _i5.Future<String> generateMemeWith5Boxes(
+    String? templateId,
+    String? text0,
+    String? text1,
+    String? text2,
+    String? text3,
+    String? text4,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #generateMemeWith5Boxes,
+          [
+            templateId,
+            text0,
+            text1,
+            text2,
+            text3,
+            text4,
+          ],
+        ),
+        returnValue: _i5.Future<String>.value(_i3.dummyValue<String>(
+          this,
+          Invocation.method(
+            #generateMemeWith5Boxes,
+            [
+              templateId,
+              text0,
+              text1,
+              text2,
+              text3,
+              text4,
+            ],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<String>.value(_i3.dummyValue<String>(
+          this,
+          Invocation.method(
+            #generateMemeWith5Boxes,
+            [
+              templateId,
+              text0,
+              text1,
+              text2,
+              text3,
+              text4,
+            ],
+          ),
+        )),
+      ) as _i5.Future<String>);
+
+  @override
+  _i5.Future<String> generateMeme3boxesArray(
+    String? templateId,
+    String? text0,
+    String? text1,
+    String? text2,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #generateMeme3boxesArray,
+          [
+            templateId,
+            text0,
+            text1,
+            text2,
+          ],
+        ),
+        returnValue: _i5.Future<String>.value(_i3.dummyValue<String>(
+          this,
+          Invocation.method(
+            #generateMeme3boxesArray,
+            [
+              templateId,
+              text0,
+              text1,
+              text2,
+            ],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<String>.value(_i3.dummyValue<String>(
+          this,
+          Invocation.method(
+            #generateMeme3boxesArray,
+            [
+              templateId,
+              text0,
+              text1,
+              text2,
+            ],
+          ),
+        )),
+      ) as _i5.Future<String>);
+
+  @override
+  _i5.Future<String> generateMeme4boxesArray(
+    String? templateId,
+    String? text0,
+    String? text1,
+    String? text2,
+    String? text3,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #generateMeme4boxesArray,
+          [
+            templateId,
+            text0,
+            text1,
+            text2,
+            text3,
+          ],
+        ),
+        returnValue: _i5.Future<String>.value(_i3.dummyValue<String>(
+          this,
+          Invocation.method(
+            #generateMeme4boxesArray,
+            [
+              templateId,
+              text0,
+              text1,
+              text2,
+              text3,
+            ],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<String>.value(_i3.dummyValue<String>(
+          this,
+          Invocation.method(
+            #generateMeme4boxesArray,
+            [
+              templateId,
+              text0,
+              text1,
+              text2,
+              text3,
+            ],
+          ),
+        )),
+      ) as _i5.Future<String>);
+
+  @override
+  _i5.Future<String> generateMeme5boxesArray(
+    String? templateId,
+    String? text0,
+    String? text1,
+    String? text2,
+    String? text3,
+    String? text4,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #generateMeme5boxesArray,
+          [
+            templateId,
+            text0,
+            text1,
+            text2,
+            text3,
+            text4,
+          ],
+        ),
+        returnValue: _i5.Future<String>.value(_i3.dummyValue<String>(
+          this,
+          Invocation.method(
+            #generateMeme5boxesArray,
+            [
+              templateId,
+              text0,
+              text1,
+              text2,
+              text3,
+              text4,
+            ],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<String>.value(_i3.dummyValue<String>(
+          this,
+          Invocation.method(
+            #generateMeme5boxesArray,
+            [
+              templateId,
+              text0,
+              text1,
+              text2,
+              text3,
+              text4,
             ],
           ),
         )),
@@ -790,4 +1079,57 @@ class MockMemegenerationserviceService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockFetchmemesdataService extends _i1.Mock
-    implements _i8.FetchmemesdataService {}
+    implements _i8.FetchmemesdataService {
+  @override
+  List<_i9.Meme> get memes => (super.noSuchMethod(
+        Invocation.getter(#memes),
+        returnValue: <_i9.Meme>[],
+        returnValueForMissingStub: <_i9.Meme>[],
+      ) as List<_i9.Meme>);
+
+  @override
+  set memes(List<_i9.Meme>? _memes) => super.noSuchMethod(
+        Invocation.setter(
+          #memes,
+          _memes,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i5.Future<List<Map<String, dynamic>>> fetchMemes() => (super.noSuchMethod(
+        Invocation.method(
+          #fetchMemes,
+          [],
+        ),
+        returnValue: _i5.Future<List<Map<String, dynamic>>>.value(
+            <Map<String, dynamic>>[]),
+        returnValueForMissingStub: _i5.Future<List<Map<String, dynamic>>>.value(
+            <Map<String, dynamic>>[]),
+      ) as _i5.Future<List<Map<String, dynamic>>>);
+
+  @override
+  _i5.Future<void> downloadAndSaveData() => (super.noSuchMethod(
+        Invocation.method(
+          #downloadAndSaveData,
+          [],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> loadData() => (super.noSuchMethod(
+        Invocation.method(
+          #loadData,
+          [],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+}
+
+/// A class which mocks [AdmobService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAdmobService extends _i1.Mock implements _i10.AdmobService {}

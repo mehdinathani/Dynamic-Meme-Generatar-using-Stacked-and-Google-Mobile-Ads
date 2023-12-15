@@ -69,11 +69,11 @@ class FetchmemesdataService {
         memes = memesData.map((memeData) => Meme.fromJson(memeData)).toList();
         log("${memes.length} Memes fetched.");
       } else {
-        print('Failed to load data: ${response.statusCode}');
+        debugPrint('Failed to load data: ${response.statusCode}');
         // Handle the error as needed
       }
     } catch (e) {
-      print('Error loading data: $e');
+      debugPrint('Error loading data: $e');
       // Handle errors as needed
     }
   }

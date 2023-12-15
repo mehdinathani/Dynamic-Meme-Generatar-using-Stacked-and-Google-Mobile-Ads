@@ -7,6 +7,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:memegeneraterappusingstacked/services/memegenerationservice_service.dart';
 import 'package:memegeneraterappusingstacked/ui/views/memeview/memeview_view.dart';
 import 'package:memegeneraterappusingstacked/services/fetchmemesdata_service.dart';
+import 'package:memegeneraterappusingstacked/services/admob_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -22,6 +23,7 @@ import 'package:memegeneraterappusingstacked/services/fetchmemesdata_service.dar
     LazySingleton(classType: NavigationService),
     LazySingleton(classType: MemegenerationserviceService),
     LazySingleton(classType: FetchmemesdataService),
+    LazySingleton(classType: AdmobService),
 // @stacked-service
   ],
   bottomsheets: [

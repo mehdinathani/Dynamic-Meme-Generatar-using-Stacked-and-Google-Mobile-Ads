@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -7,16 +5,12 @@ import 'package:memegeneraterappusingstacked/model/memes_current_data.dart';
 import 'package:memegeneraterappusingstacked/ui/common/custom_drawer_buttons.dart';
 import 'package:memegeneraterappusingstacked/ui/views/home/home_viewmodel.dart';
 import 'package:stacked/stacked.dart';
-import 'package:intl/intl.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    int dummuyReward = 1;
-    final oCcy = NumberFormat("#,##0", "en_US");
-
     return ViewModelBuilder<HomeViewModel>.reactive(
       onViewModelReady: (viewModel) => viewModel.fetchMemeData(),
       viewModelBuilder: () => HomeViewModel(),
@@ -44,7 +38,7 @@ class HomeView extends StatelessWidget {
                 ),
                 CustomDrawerButton(
                   onTap: () {
-                    viewModel.navigateToHome();
+                    Navigator.pop(context);
                   },
                   icon: Icons.home,
                   text: "Home",
@@ -71,7 +65,11 @@ class HomeView extends StatelessWidget {
                   height: 20,
                 ),
                 CustomDrawerButton(
-                    onTap: () async {}, icon: Icons.share, text: 'Share'),
+                    onTap: () async {
+                      viewModel.showShareAppDialog();
+                    },
+                    icon: Icons.share,
+                    text: 'Share'),
                 const SizedBox(
                   height: 20,
                 ),
@@ -121,7 +119,7 @@ class HomeView extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(18.0),
                         child: viewModel.isBusy
-                            ? CircularProgressIndicator()
+                            ? const CircularProgressIndicator()
                             : Visibility(
                                 visible: !viewModel.isBusy,
                                 child: Column(
@@ -133,8 +131,7 @@ class HomeView extends StatelessWidget {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "GuestName",
-                                            //"   ${viewModel.guestUserName}",
+                                            "   ${viewModel.guestUserName}",
                                             style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 24.0,
@@ -142,8 +139,7 @@ class HomeView extends StatelessWidget {
                                             ),
                                           ),
                                           Text(
-                                            "Stars",
-                                            //'Stars ${viewModel.admobService.rewardedScore} ⭐  ',
+                                            'Stars ${viewModel.admobService.rewardedScore} ⭐  ',
                                             style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 24.0,
@@ -228,22 +224,23 @@ class HomeView extends StatelessWidget {
                                                 allowHalfRating: true,
                                                 itemCount: 5,
                                                 itemPadding:
-                                                    EdgeInsets.symmetric(
+                                                    const EdgeInsets.symmetric(
                                                         horizontal: 4.0),
                                                 itemBuilder: (context, _) =>
-                                                    Icon(
+                                                    const Icon(
                                                   Icons.star,
                                                   color: Colors.amber,
                                                 ),
                                                 onRatingUpdate: (rating) {
-                                                  print(rating);
+                                                  debugPrint(rating.toString());
                                                 },
                                               ),
                                             );
                                           },
-                                          menuProps: MenuProps(
+                                          menuProps: const MenuProps(
                                               barrierLabel: "Search Here"),
-                                          searchFieldProps: TextFieldProps(
+                                          searchFieldProps:
+                                              const TextFieldProps(
                                             autocorrect: true,
                                             autofocus: true,
                                             enableSuggestions: true,
@@ -259,11 +256,6 @@ class HomeView extends StatelessWidget {
                                           ),
                                         ),
                                         items: viewModel.filteredmemes,
-                                        // viewModel.memes
-                                        //     .where((meme) =>
-                                        //         meme.boxCount ==
-                                        //         viewModel.selectedBoxCount)
-                                        //     .toList(),
                                         itemAsString: (Meme meme) {
                                           double rating =
                                               viewModel.normalizeRating(
@@ -358,7 +350,7 @@ class HomeView extends StatelessWidget {
                                         },
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 16,
                                     ),
                                     // show 3rd text box if selected box is 4 or more
@@ -382,7 +374,7 @@ class HomeView extends StatelessWidget {
                                         },
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 16,
                                     ),
                                     // show 3rd text box if selected box is 4 or more
@@ -416,9 +408,11 @@ class HomeView extends StatelessWidget {
                                                 Colors.purple),
                                       ),
                                       onPressed: () async {
-                                        if (dummuyReward > 0) {
+                                        if (viewModel
+                                                .admobService.rewardedScore >
+                                            0) {
                                           await viewModel.generateMeme();
-                                          viewModel.navigateTOMemeView();
+                                          // viewModel.navigateTOMemeView();
                                         } else {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
@@ -448,7 +442,7 @@ class HomeView extends StatelessWidget {
                                                 Colors.purple),
                                       ),
                                       onPressed: () async {
-                                        // await viewModel.showRewardedAd();
+                                        await viewModel.showRewardedAd();
                                       },
                                       child: const Text(
                                         "Earn Stars",

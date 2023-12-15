@@ -7,9 +7,9 @@ import 'package:memegeneraterappusingstacked/app/app.locator.dart';
 import 'package:memegeneraterappusingstacked/app/app.router.dart';
 import 'package:memegeneraterappusingstacked/config/config.dart';
 import 'package:memegeneraterappusingstacked/model/memes_current_data.dart';
+import 'package:memegeneraterappusingstacked/services/admob_service.dart';
 import 'package:memegeneraterappusingstacked/services/fetchmemesdata_service.dart';
 import 'package:memegeneraterappusingstacked/services/memegenerationservice_service.dart';
-import 'package:memegeneraterappusingstacked/ui/dialogs/info_alert/info_alert_dialog_model.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -18,12 +18,14 @@ class HomeViewModel extends BaseViewModel {
   String templateURL = "";
   String text0 = '';
   String text1 = '';
-  String text2 = 'someone with text 2';
-  String text3 = 'someone with text 3';
-  String text4 = 'someone with text 4';
+  String text2 = '';
+  String text3 = '';
+  String text4 = '';
   String username = Config.username;
   String password = Config.password;
   String imageUrl = '';
+  String guestUserName = '';
+  int userRewardScore = 0;
   int selectedBoxCount = 2;
   late List<Meme> memes = [];
   late List<Meme> filteredmemes = [];
@@ -54,7 +56,7 @@ class HomeViewModel extends BaseViewModel {
 
   final BottomSheetService _bottomSheetService = locator<BottomSheetService>();
   final DialogService _dialogService = locator<DialogService>();
-
+  final AdmobService admobService = locator<AdmobService>();
   showAboutUS() async {
     await _dialogService.showDialog(
       title: 'About us',
@@ -75,11 +77,25 @@ class HomeViewModel extends BaseViewModel {
     if (response!.confirmed) {
       exit(0);
     }
-    debugPrint('DialogResponse: ${response?.confirmed}');
+    debugPrint('DialogResponse: ${response.confirmed}');
+  }
+
+  Future showShareAppDialog() async {
+    DialogResponse? response = await _dialogService.showDialog(
+      title: 'Like it',
+      description: "Did you like this App?",
+      buttonTitle: 'Ok',
+      cancelTitle: 'Cancel',
+      dialogPlatform: DialogPlatform.Cupertino,
+    );
+    if (response!.confirmed) {
+      exit(0);
+    }
+    debugPrint('DialogResponse: ${response.confirmed}');
   }
 
   showInstructions() async {
-    var sheetResponse = await _bottomSheetService.showBottomSheet(
+    await _bottomSheetService.showBottomSheet(
       title: 'Instruction to use',
       description:
           '1- Select box count to select your Meme Category.\n \n2- Pick you Meme theme based on name and popularity Rating. \n \n3- You need atleast 1 start to generate your meme. \n \n4- Do watch some Ads to earn rewarded Stars. \n \n5- Each ad you see will give you 1 star. \n \n 6- You can share your Meme as many time as you can. ',
@@ -126,12 +142,17 @@ class HomeViewModel extends BaseViewModel {
 
   Future<void> generateMeme() async {
     if (templateId.isEmpty || text0.isEmpty || text1.isEmpty) {
+      _dialogService.showDialog(
+          title: "Invalid Request", description: "All Fields are Required.");
+
       // Perform validation and show an error message if needed
       // You may use a state variable to manage the error message in your UI
       return;
     }
 
     setBusy(true);
+    admobService.rewardedScore--;
+    notifyListeners();
 
     try {
       switch (selectedBoxCount) {
@@ -162,7 +183,11 @@ class HomeViewModel extends BaseViewModel {
       log(imageUrl);
 
       // Notify listeners that the data has been changed
+      templateId = "";
+      text0 = "";
+      text1 = "";
       notifyListeners();
+      await navigateTOMemeView();
     } catch (e) {
       // Handle errors
       debugPrint('Error generating meme: $e');
@@ -173,8 +198,14 @@ class HomeViewModel extends BaseViewModel {
     }
   }
 
+  showRewardedAd() async {
+    await admobService.showRewardedAd();
+    notifyListeners();
+  }
+
   Future<void> fetchMemeData() async {
     setBusy(true);
+    getUserInfo();
     // fetchedMemes = await _fetchmemesdataService.fetchMemes();
     // // Use the fetchedMemes directly in your application
     // log(fetchedMemes.toString());
@@ -183,6 +214,7 @@ class HomeViewModel extends BaseViewModel {
         .memes; // Assign the loaded memes to the ViewModel property
 
     getMaxMinCaptions();
+    rebuildUi();
 
     setBusy(false);
   }
@@ -226,6 +258,11 @@ class HomeViewModel extends BaseViewModel {
     double rating = normalizedValue * 4 + 1;
 
     return rating;
+  }
+
+  getUserInfo() {
+    guestUserName = admobService.generateRandomGuestNumber();
+    userRewardScore = admobService.rewardedScore;
   }
 
   // Add a new method in your HomeViewModel to create the widget
