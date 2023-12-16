@@ -13,6 +13,7 @@ Future<void> main() async {
   setupDialogUi();
   setupBottomSheetUi();
   MobileAds.instance.initialize();
+  GoogleFonts.pendingFonts([GoogleFonts.lobster]);
   runApp(const MainApp());
 }
 
