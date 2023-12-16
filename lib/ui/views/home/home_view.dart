@@ -51,7 +51,7 @@ class HomeView extends StatelessWidget {
                       viewModel.showInstructions();
                     },
                     icon: Icons.document_scanner_outlined,
-                    text: "Instrunctions"),
+                    text: "Instructions"),
                 const SizedBox(
                   height: 20,
                 ),
