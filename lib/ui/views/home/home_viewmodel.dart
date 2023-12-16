@@ -83,9 +83,9 @@ class HomeViewModel extends BaseViewModel {
   Future showShareAppDialog() async {
     DialogResponse? response = await _dialogService.showDialog(
       title: 'Like it',
-      description: "Did you like this App?",
-      buttonTitle: 'Ok',
-      cancelTitle: 'Cancel',
+      description: "Did you like this App? \n Give us 5 Star rating.",
+      buttonTitle: 'Sure',
+      cancelTitle: 'Later',
       dialogPlatform: DialogPlatform.Cupertino,
     );
     if (response!.confirmed) {

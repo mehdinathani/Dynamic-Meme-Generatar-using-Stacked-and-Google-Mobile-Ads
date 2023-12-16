@@ -68,8 +68,8 @@ class HomeView extends StatelessWidget {
                     onTap: () async {
                       viewModel.showShareAppDialog();
                     },
-                    icon: Icons.share,
-                    text: 'Share'),
+                    icon: Icons.favorite,
+                    text: 'Rate us'),
                 const SizedBox(
                   height: 20,
                 ),
